@@ -1,0 +1,5 @@
+Jun 17 21:10:33 ubuntu sshd[1234]: Failed password for invalid user admin from 192.168.0.10 port 54321 ssh2
+Jun 17 21:11:02 ubuntu sshd[1235]: Failed password for root from 203.0.113.10 port 49812 ssh2
+Jun 17 21:12:15 ubuntu sshd[1236]: Accepted password for ubuntu from 192.168.0.20 port 50222 ssh2
+Jun 17 21:13:44 ubuntu sudo:   ubuntu : TTY=pts/0 ; PWD=/home/ubuntu ; USER=root ; COMMAND=/usr/bin/apt update
+Jun 17 21:14:09 ubuntu sshd[1237]: Accepted publickey for root from 198.51.100.7 port 60123 ssh2
