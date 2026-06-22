@@ -1,0 +1,78 @@
+{
+  "index_patterns": [
+    "security-auth-log-*"
+  ],
+  "priority": 100,
+  "template": {
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 0
+    },
+    "mappings": {
+      "dynamic": true,
+      "properties": {
+        "@timestamp": {
+          "type": "date"
+        },
+        "auth_method": {
+          "type": "keyword"
+        },
+        "auth_timestamp": {
+          "type": "keyword"
+        },
+        "event_type": {
+          "type": "keyword"
+        },
+        "host_name": {
+          "type": "keyword"
+        },
+        "log_level": {
+          "type": "keyword"
+        },
+        "log_source": {
+          "type": "keyword"
+        },
+        "message": {
+          "type": "text"
+        },
+        "pipeline_stage": {
+          "type": "keyword"
+        },
+        "process_id": {
+          "type": "keyword"
+        },
+        "raw_message": {
+          "type": "text"
+        },
+        "service": {
+          "type": "keyword"
+        },
+        "source_ip": {
+          "type": "ip"
+        },
+        "source_port": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "keyword"
+        },
+        "sudo_command": {
+          "type": "keyword"
+        },
+        "sudo_detail": {
+          "type": "text"
+        },
+        "username": {
+          "type": "keyword"
+        },
+        "event": {
+          "properties": {
+            "original": {
+              "type": "text"
+            }
+          }
+        }
+      }
+    }
+  }
+}
