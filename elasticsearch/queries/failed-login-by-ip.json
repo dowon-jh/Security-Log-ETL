@@ -1,0 +1,27 @@
+{
+  "size": 0,
+  "query": {
+    "term": {
+      "event_type": "ssh_failed_login"
+    }
+  },
+  "runtime_mappings": {
+    "source_ip_group": {
+      "type": "keyword",
+      "script": {
+        "source": "if (doc.containsKey('source_ip.keyword') && !doc['source_ip.keyword'].empty) { emit(doc['source_ip.keyword'].value); } else if (doc.containsKey('source_ip') && !doc['source_ip'].empty) { emit(doc['source_ip'].value.toString()); }"
+      }
+    }
+  },
+  "aggs": {
+    "top_failed_login_ips": {
+      "terms": {
+        "field": "source_ip_group",
+        "size": 10,
+        "order": {
+          "_count": "desc"
+        }
+      }
+    }
+  }
+}

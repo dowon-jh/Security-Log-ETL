@@ -1,0 +1,15 @@
+{
+  "size": 20,
+  "query": {
+    "term": {
+      "event_type": "root_login"
+    }
+  },
+  "sort": [
+    {
+      "@timestamp": {
+        "order": "desc"
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "size": 20,
+  "query": {
+    "term": {
+      "event_type": "sudo_command"
+    }
+  },
+  "sort": [
+    {
+      "@timestamp": {
+        "order": "desc"
+      }
+    }
+  ]
+}

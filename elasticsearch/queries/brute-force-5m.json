@@ -1,0 +1,40 @@
+{
+  "size": 0,
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "term": {
+            "event_type": "ssh_failed_login"
+          }
+        }
+      ]
+    }
+  },
+  "runtime_mappings": {
+    "source_ip_group": {
+      "type": "keyword",
+      "script": {
+        "source": "if (doc.containsKey('source_ip.keyword') && !doc['source_ip.keyword'].empty) { emit(doc['source_ip.keyword'].value); } else if (doc.containsKey('source_ip') && !doc['source_ip'].empty) { emit(doc['source_ip'].value.toString()); }"
+      }
+    }
+  },
+  "aggs": {
+    "by_5m_window": {
+      "date_histogram": {
+        "field": "@timestamp",
+        "fixed_interval": "5m",
+        "min_doc_count": 1
+      },
+      "aggs": {
+        "by_source_ip": {
+          "terms": {
+            "field": "source_ip_group",
+            "size": 10,
+            "min_doc_count": 20
+          }
+        }
+      }
+    }
+  }
+}
