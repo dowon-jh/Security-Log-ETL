@@ -397,6 +397,9 @@ security-auth-log-*
 ### 위험 이벤트 목록
 <img width="1919" height="928" alt="대시보드 위험 이벤트 목록" src="https://github.com/user-attachments/assets/435e9395-fc94-4e96-abc9-b6fbf415f04d" />
 
+#### SSH 로그인 실패 TOP IP 패널도 구성했으나, 현재 샘플 데이터의 source_ip 매핑 차이로 README 캡처에서는 제외했습니다.
+
+
 
 ### Lens와 Discover 사용 기준
 
