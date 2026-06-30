@@ -31,7 +31,7 @@ docker compose version
 PowerShell에서 프로젝트 폴더로 이동합니다.
 
 ```powershell
-cd C:\Users\dwjam\OneDrive\문서\ETL_streaming
+cd Security-Log-ETL
 ```
 
 ## 4. Docker Compose 환경 실행
@@ -139,7 +139,7 @@ Adding newly assigned partitions
 다음날 빠르게 시작할 때는 아래 순서만 기억해도 됩니다.
 
 ```powershell
-cd C:\Users\dwjam\OneDrive\문서\ETL_streaming
+cd Security-Log-ETL
 docker compose up -d
 docker compose ps
 curl.exe http://localhost:9200/_cluster/health

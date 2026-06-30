@@ -367,7 +367,7 @@ etl-raw-log-YYYY.MM.dd
 프로젝트 루트로 이동합니다.
 
 ```powershell
-cd C:\Users\dwjam\OneDrive\문서\ETL_streaming
+cd Security-Log-ETL
 ```
 
 ### 7.1 컨테이너 실행

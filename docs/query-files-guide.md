@@ -9,7 +9,7 @@
 Query 파일은 프로젝트 폴더 안의 아래 경로에 있습니다.
 
 ```text
-C:\Users\dwjam\OneDrive\문서\ETL_streaming\elasticsearch\queries
+Security-Log-ETL\elasticsearch\queries
 ```
 
 프로젝트 기준 상대 경로:
@@ -43,7 +43,7 @@ brute-force-5m.json
 프로젝트 폴더로 이동합니다.
 
 ```powershell
-cd C:\Users\dwjam\OneDrive\문서\ETL_streaming
+cd Security-Log-ETL
 ```
 
 목록 확인:
