@@ -378,6 +378,26 @@ security-auth-log-*
 | 5 | sudo 명령어 사용 목록 | Discover Saved Search | `docs/dashboards/05-sudo-command-list.md` |
 | 6 | 위험 이벤트 목록 | Discover Saved Search | `docs/dashboards/06-risk-events-list.md` |
 
+### 시간대별 SSH 로그인 실패 추이
+<img width="1920" height="771" alt="대시보드 시간대별 SSH로그인 실패 추이" src="https://github.com/user-attachments/assets/6432ad56-c75e-4e5e-a87a-52158ee3ca55" />
+
+
+### 계정별 SSH 로그인 실패 횟수
+<img width="1919" height="938" alt="대시보드 계정별 SSH 로그인 실패 횟수" src="https://github.com/user-attachments/assets/f04d0474-23b2-4003-98d8-5332ef303286" />
+
+
+### root 로그인 발생 목록
+<img width="1912" height="936" alt="대시보드 root 로그인 발생목록" src="https://github.com/user-attachments/assets/d11aba23-1a7b-4f51-9cb4-ad9c9b95b232" />
+
+
+### sudo 명령어 사용 목록
+<img width="1915" height="934" alt="대시보드 sudo 명령어 사용 목록" src="https://github.com/user-attachments/assets/a4900676-614b-4c5d-ae26-5587dc2ef096" />
+
+
+### 위험 이벤트 목록
+<img width="1919" height="928" alt="대시보드 위험 이벤트 목록" src="https://github.com/user-attachments/assets/435e9395-fc94-4e96-abc9-b6fbf415f04d" />
+
+
 ### Lens와 Discover 사용 기준
 
 ```text
