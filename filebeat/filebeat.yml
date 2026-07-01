@@ -1,0 +1,18 @@
+filebeat.inputs:
+  - type: filestream
+    id: security-auth-log-sample
+    enabled: true
+    paths:
+      - /var/log/security-samples/auth.log
+    fields:
+      log_source: security-auth-log
+    fields_under_root: true
+
+output.kafka:
+  hosts: ["kafka:9092"]
+  topic: "security-auth-log"
+  required_acks: 1
+  codec.format:
+    string: "%{[message]}"
+
+logging.level: info

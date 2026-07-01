@@ -95,8 +95,26 @@ services:
     networks:
       - etl-network
 
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.15.3
+    container_name: etl-filebeat
+    user: root
+    command: ["filebeat", "-e", "--strict.perms=false"]
+    volumes:
+      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./sample-logs:/var/log/security-samples:ro
+      - filebeat-data:/usr/share/filebeat/data
+    depends_on:
+      kafka:
+        condition: service_healthy
+      kafka-init:
+        condition: service_completed_successfully
+    networks:
+      - etl-network
+
 volumes:
   elasticsearch-data:
+  filebeat-data:
 
 networks:
   etl-network:

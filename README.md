@@ -28,20 +28,22 @@ Kibana Discover, Lens, Dashboard 활용
 ```text
 sample-logs/auth.log
 sample-logs/brute-force-auth.log
+-> Filebeat
 -> Kafka security-auth-log topic
 -> Logstash parsing
 -> Elasticsearch security-auth-log-* index
 -> Kibana Dashboard
 ```
 
-처음 기획에는 Filebeat 수집이 포함되어 있지만, 현재 로컬 학습 단계에서는 샘플 로그를 Kafka console producer로 직접 넣어 데이터 흐름을 확인합니다.
+초기 학습 단계에서는 Kafka console producer로 샘플 로그를 직접 넣어 데이터 흐름을 확인했고, 확장 단계에서는 Filebeat가 `auth.log` 파일을 읽어 Kafka로 자동 전송하도록 구성했습니다.
 
 ## 2. 아키텍처
 
 전체 흐름은 다음과 같습니다.
 
 ```text
-Sample Log
+Sample Log File
+  -> Filebeat
   -> Kafka Topic
   -> Logstash Pipeline
   -> Elasticsearch Index
@@ -53,6 +55,7 @@ Sample Log
 | 구성 요소 | 역할 |
 |---|---|
 | Sample Logs | 테스트용 보안 로그 원본 |
+| Filebeat | 로그 파일을 감시하고 Kafka로 전달하는 수집 agent |
 | Kafka | 로그를 topic 단위로 전달하는 메시지 브로커 |
 | Logstash | Kafka에서 로그를 읽고 필드를 파싱/정규화 |
 | Elasticsearch | 정제된 로그를 index에 저장하고 검색/집계 제공 |
@@ -64,6 +67,7 @@ Docker Compose 서비스:
 |---|---|---|---|
 | Kafka | `etl-kafka` | `29092` | KRaft 기반 단일 노드 Kafka |
 | kafka-init | `etl-kafka-init` | - | 학습용 topic 자동 생성 |
+| Filebeat | `etl-filebeat` | - | `sample-logs/auth.log`를 읽어 Kafka로 전송 |
 | Logstash | `etl-logstash` | `5044` | Kafka consume 후 Elasticsearch 적재 |
 | Elasticsearch | `etl-elasticsearch` | `9200` | 로그 저장 및 검색 |
 | Kibana | `etl-kibana` | `5601` | Dashboard 확인 |
@@ -72,6 +76,7 @@ Docker Compose 서비스:
 
 ```text
 docs/docker-compose-environment.md
+docs/filebeat-integration.md
 ```
 
 ## 3. 실행 방법
@@ -498,7 +503,6 @@ cluster health가 yellow로 표시될 수 있습니다.
 현재 프로젝트는 단일 노드 로컬 학습 환경입니다. 이후에는 다음 방향으로 확장할 수 있습니다.
 
 ```text
-Filebeat를 실제 수집기로 연결
 nginx-access-log 파싱 구현
 docker-container-log 파싱 구현
 Kafka broker와 replication factor 증가
@@ -522,4 +526,3 @@ docs/daily-work-2026-06-30.md
 ```text
 docs/resume-environment-checklist.md
 ```
-
