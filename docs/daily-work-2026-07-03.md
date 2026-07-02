@@ -21,6 +21,9 @@ sample-logs/nginx-access.log
 filebeat/filebeat.yml
 logstash/pipeline/logstash.conf
 docs/nginx-access-log-parsing.md
+docs/dashboards/07-nginx-http-status.md
+docs/dashboards/08-nginx-top-request-ip.md
+docs/dashboards/09-nginx-risk-web-events.md
 docs/daily-work-2026-07-03.md
 ```
 
@@ -151,7 +154,133 @@ http_status >= 400
 url_path: "/admin"
 ```
 
-## 8. 오늘 작업의 의미
+## 8. Nginx 보안 접근 분석 Dashboard 생성
+
+Nginx access log를 Kibana에서 분석하기 위해 다음 Dashboard를 생성했습니다.
+
+Dashboard 이름:
+
+```text
+Nginx 보안 접근 분석
+```
+
+포함한 패널:
+
+```text
+HTTP 상태 코드별 요청 수
+Nginx TOP 요청 IP
+Nginx 위험 웹 접근 이벤트 목록
+```
+
+### 8.1 HTTP 상태 코드별 요청 수
+
+이 패널은 `http_status` 기준으로 요청 수를 집계합니다.
+
+사용한 Data View:
+
+```text
+nginx_access_logs
+```
+
+사용한 KQL:
+
+```text
+event_type: nginx_access
+```
+
+보는 필드:
+
+```text
+http_status
+event_type
+status
+log_level
+raw_message
+```
+
+보안 분석 의미:
+
+```text
+401 인증 실패, 403 접근 거부, 404 경로 스캔 가능성, 500 서버 오류를 빠르게 확인할 수 있습니다.
+```
+
+### 8.2 Nginx TOP 요청 IP
+
+이 패널은 `source_ip` 기준으로 요청 수가 많은 IP를 집계합니다.
+
+사용한 Data View:
+
+```text
+nginx_access_logs
+```
+
+사용한 KQL:
+
+```text
+event_type: nginx_access
+```
+
+보는 필드:
+
+```text
+source_ip
+http_method
+url_path
+http_status
+user_agent
+raw_message
+```
+
+보안 분석 의미:
+
+```text
+반복 로그인 시도, 관리자 페이지 접근, 스캔성 요청을 보내는 출발지 IP를 빠르게 식별할 수 있습니다.
+```
+
+### 8.3 Nginx 위험 웹 접근 이벤트 목록
+
+이 패널은 Discover에서 저장한 Table 형태의 패널입니다.
+
+사용한 Data View:
+
+```text
+nginx_access_logs
+```
+
+사용한 KQL:
+
+```text
+http_status >= 400 or url_path: "/admin" or user_agent: "curl/8.0"
+```
+
+보는 필드:
+
+```text
+@timestamp
+source_ip
+http_method
+url_path
+http_status
+status
+user_agent
+raw_message
+```
+
+보안 분석 의미:
+
+```text
+실패성 응답, 관리자 경로 접근, 자동화 도구 접근을 실제 원본 로그와 함께 확인할 수 있습니다.
+```
+
+관련 문서:
+
+```text
+docs/dashboards/07-nginx-http-status.md
+docs/dashboards/08-nginx-top-request-ip.md
+docs/dashboards/09-nginx-risk-web-events.md
+```
+
+## 9. 오늘 작업의 의미
 
 이번 작업으로 프로젝트는 서버 인증 로그뿐 아니라 웹 접근 로그까지 처리할 수 있게 되었습니다.
 
@@ -168,4 +297,5 @@ nginx-access.log = 웹 요청과 비정상 접근 관점
 Filebeat input을 확장하여 auth.log와 nginx-access.log를 동시에 수집하도록 구성했습니다.
 각 input에 kafka_topic 필드를 지정했고, Kafka output에서 해당 필드를 사용해 로그 종류별 topic으로 분리 전송했습니다.
 Logstash에서는 Kafka topic 기준으로 파싱 로직을 분리하여 Nginx access log를 source_ip, http_method, url_path, http_status, user_agent 등으로 정규화했습니다.
+Kibana에서는 HTTP 상태 코드별 요청 수, TOP 요청 IP, 위험 웹 접근 이벤트 목록으로 구성된 Nginx 보안 접근 분석 Dashboard를 만들어 웹 접근 이상 징후를 확인할 수 있도록 했습니다.
 ```
