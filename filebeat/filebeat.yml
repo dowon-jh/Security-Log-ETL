@@ -6,11 +6,22 @@ filebeat.inputs:
       - /var/log/security-samples/auth.log
     fields:
       log_source: security-auth-log
+      kafka_topic: security-auth-log
+    fields_under_root: true
+
+  - type: filestream
+    id: nginx-access-log-sample
+    enabled: true
+    paths:
+      - /var/log/security-samples/nginx-access.log
+    fields:
+      log_source: nginx-access-log
+      kafka_topic: nginx-access-log
     fields_under_root: true
 
 output.kafka:
   hosts: ["kafka:9092"]
-  topic: "security-auth-log"
+  topic: "%{[kafka_topic]}"
   required_acks: 1
   codec.format:
     string: "%{[message]}"
